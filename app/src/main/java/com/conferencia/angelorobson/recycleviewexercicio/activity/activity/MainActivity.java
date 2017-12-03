@@ -18,7 +18,7 @@ import com.conferencia.angelorobson.recycleviewexercicio.activity.model.Movie;
 import com.conferencia.angelorobson.recycleviewexercicio.activity.model.MovieResults;
 import com.conferencia.angelorobson.recycleviewexercicio.activity.service.MovieService;
 import com.conferencia.angelorobson.recycleviewexercicio.activity.service.ServiceGenerator;
-import com.conferencia.angelorobson.recycleviewexercicio.activity.util.RecyclerItemClickListener;
+import com.conferencia.angelorobson.recycleviewexercicio.activity.listener.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
