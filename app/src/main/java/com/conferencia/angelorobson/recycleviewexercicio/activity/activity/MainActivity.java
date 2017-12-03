@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initViews(){
+    mProgressBar = findViewById(R.id.progressbar);
     mRecyclerView = findViewById(R.id.recyclerView);
 
     adapterMovies = new AdapterMovies(movies);
@@ -67,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
         new RecyclerItemClickListener.OnItemClickListener() {
           @Override
           public void onItemClick(View view, int position) {
-            Toast.makeText(getApplicationContext(), movies.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            Log.v("MyLog", movies.get(position).getTitle());
           }
 
           @Override
           public void onLongItemClick(View view, int position) {
-            Toast.makeText(getApplicationContext(), movies.get(position).getDescription(), Toast.LENGTH_SHORT).show();
+            Log.v("MyLog", movies.get(position).getDescription());
           }
 
           @Override
@@ -88,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onLoadMore(int current_page) {
         getMovies(current_page, API_KEY, LANGUAGE, POPULARITY_DESC);
-        Toast.makeText(getApplicationContext(), "Page" + String.valueOf(current_page), Toast.LENGTH_LONG).show();
-        adapterMovies.notifyDataSetChanged();
+        Log.v("MyLog", "Page: " + String.valueOf(current_page));
       }
     });
 
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void getMovies(Integer page, String ... params) {
-
+    mProgressBar.setVisibility(View.VISIBLE);
     mMovieService = ServiceGenerator.createService(MovieService.class);
 
     Call<MovieResults> call = mMovieService.getAllMovies(params[0], params[1], params[2], page);
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (response.isSuccessful()) {
           movies.addAll(response.body().getMovies());
           adapterMovies.notifyDataSetChanged();
+          mProgressBar.setVisibility(View.GONE);
         }
       }
 
